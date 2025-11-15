@@ -362,7 +362,7 @@
   </main>
   
   <footer class="mt-12 text-center text-gray-500 text-sm">
-   &copy; 2023 Joki & Jual Beli. All rights reserved.
+   &copy; 2025 Joki & Jual Beli. All rights reserved.
   </footer>
 
   <div id="checkoutModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center modal-hidden z-50 p-4" style="display: none;">
@@ -374,7 +374,7 @@
           <div class="text-center mb-4 border-b border-gray-700 pb-4">
             <h2 class="text-3xl font-bold text-red-400">
                 <i class="fas fa-lock text-xl mr-2"></i>
-                Order & Konfirmasi
+                Order & Pembayaran
             </h2>
           </div>
 
@@ -452,12 +452,21 @@
                 </div>
                 
 
-                <button class="whatsapp-btn w-full text-xl flex items-center justify-center mt-6" onclick="redirectToWhatsApp()" disabled>
-                    <i class="fab fa-whatsapp text-2xl mr-3"></i>
-                    Saya Sudah Bayar & Konfirmasi Order
+                <button class="whatsapp-btn w-full text-xl flex items-center justify-center mt-6" id="redirectButton" onclick="redirectToPayment()" disabled>
+                    <i class="fas fa-external-link-alt text-2xl mr-3"></i>
+                    Lanjut ke Pembayaran
                 </button>
                 <p class="text-xs text-gray-500 mt-2 text-center">
-                    Tombol ini akan aktif setelah Anda memilih item, ID, dan metode pembayaran.
+                    Klik ini untuk mendapatkan link pembayaran.
+                </p>
+                <hr class="border-gray-700 my-4">
+
+                <button class="btn-primary w-full text-xl flex items-center justify-center" id="confirmButton" onclick="confirmPayment()" disabled>
+                    <i class="fab fa-whatsapp text-2xl mr-3"></i>
+                    Konfirmasi Order
+                </button>
+                <p class="text-xs text-gray-500 mt-2 text-center">
+                    Wajib klik setelah melakukan pembayaran untuk kirim bukti transfer.
                 </p>
              </div>
 
@@ -470,348 +479,41 @@
     // *******************************************************************
     // ** SILAKAN GANTI NOMOR DAN NAMA AKUN DANA DI SINI **
     // *******************************************************************
-    const adminPhoneNumber = '6285384046610'; // Ganti dengan nomor WA Anda
+    const adminPhoneNumber = '628538404610'; // Ganti dengan nomor WA Anda
     const danaAccount = '0895419044411';     // Ganti dengan NOMOR DANA Anda
     const danaAccountName = 'ridho';         // Ganti dengan NAMA AKUN DANA Anda
     
     // Ganti dengan URL Gambar QRIS Anda (jika ada)
-    const qrisImageUrl = 'https://via.placeholder.com/150x150?text=QRIS+Anda'; 
+    const qrisImageUrl = ''; 
+
+    // --- URL REDIRECT SETIAP METODE ---
+    // WAJIB DIGANTI dengan URL Link.id/Linktree/Halaman Pembayaran Anda
+    const QRIS_STATIC_URL = 'https://link-ke-halaman-qris-anda.com/qris-static';
+    const GOPAY_URL = 'https://link-untuk-gopay-anda.com';
+    const OVO_URL = 'https://link-untuk-ovo-anda.com';
+    // Untuk pembayaran pulsa/alfamart/indomaret, biasanya redirect ke chat WA
     
     // **DATA METODE PEMBAYARAN & BASE FEE (Biaya Dasar)**
-    // 'fee' awal diset 0. Nilai 'fee' akan dihitung acak dari 'baseFee' saat modal dibuka.
     const PAYMENT_METHODS = {
-        'GoPay': { name: 'GoPay', baseFee: 901, available: true, icon: 'fas fa-mobile-alt', color: 'text-green-500', fee: 0 },
-        'Dana': { name: 'Dana', baseFee: 901, available: true, icon: 'fas fa-wallet', color: 'text-blue-500', fee: 0 },
-        'QRIS': { name: 'QRIS', baseFee: 901, available: true, icon: 'fas fa-qrcode', color: 'text-indigo-500', fee: 0 },
-        'ShopeePay': { name: 'ShopeePay', baseFee: 901, available: true, icon: 'fas fa-shopping-bag', color: 'text-orange-500', fee: 0 },
-        'OVO': { name: 'OVO', baseFee: 901, available: true, icon: 'fas fa-circle', color: 'text-purple-500', fee: 0 },
-        'LinkAja': { name: 'LinkAja', baseFee: 901, available: true, icon: 'fas fa-link', color: 'text-red-500', fee: 0 },
-        'DOKU Wallet': { name: 'DOKU Wallet', baseFee: 901, available: true, icon: 'fas fa-id-card', color: 'text-gray-500', fee: 0 },
-        'Kredivo': { name: 'Kredivo', baseFee: 901, available: true, icon: 'fas fa-box', color: 'text-indigo-400', fee: 0 },
-        'Alfamart': { name: 'Alfamart', baseFee: 901, available: true, icon: 'fas fa-store', color: 'text-red-600', fee: 0 },
-        'Indomaret': { name: 'Indomaret', baseFee: 901, available: true, icon: 'fas fa-cash-register', color: 'text-blue-600', fee: 0 },
+        'GoPay': { name: 'GoPay', baseFee: 901, available: true, icon: 'fas fa-mobile-alt', color: 'text-green-500', fee: 0, redirectURL: GOPAY_URL },
+        'Dana': { name: 'Dana', baseFee: 901, available: true, icon: 'fas fa-wallet', color: 'text-blue-500', fee: 0, redirectURL: 'https://link-dana-anda.com/pembayaran' }, 
+        'QRIS': { name: 'QRIS', baseFee: 901, available: true, icon: 'fas fa-qrcode', color: 'text-indigo-500', fee: 0, redirectURL: QRIS_STATIC_URL },
+        'ShopeePay': { name: 'ShopeePay', baseFee: 901, available: true, icon: 'fas fa-shopping-bag', color: 'text-orange-500', fee: 0, redirectURL: 'https://link-shopeepay.com' },
+        'OVO': { name: 'OVO', baseFee: 901, available: true, icon: 'fas fa-circle', color: 'text-purple-500', fee: 0, redirectURL: OVO_URL },
+        'LinkAja': { name: 'LinkAja', baseFee: 901, available: true, icon: 'fas fa-link', color: 'text-red-500', fee: 0, redirectURL: 'https://link-linkaja.com' },
+        'DOKU Wallet': { name: 'DOKU Wallet', baseFee: 901, available: true, icon: 'fas fa-id-card', color: 'text-gray-500', fee: 0, redirectURL: 'https://link-doku.com' },
+        'Kredivo': { name: 'Kredivo', baseFee: 901, available: true, icon: 'fas fa-box', color: 'text-indigo-400', fee: 0, redirectURL: 'https://kredivo.com' },
         
-        'Indosat': { name: 'Indosat', baseFee: 1135, available: true, icon: 'fas fa-signal', color: 'text-yellow-400', fee: 0 },
-        'Telkomsel': { name: 'Telkomsel', baseFee: 1351, available: true, icon: 'fas fa-signal', color: 'text-red-400', fee: 0 },
-        'Tri Indonesia': { name: 'Tri Indonesia', baseFee: 1135, available: true, icon: 'fas fa-signal', color: 'text-green-400', fee: 0 },
-        'XL Axiata': { name: 'XL Axiata', baseFee: 1802, available: true, icon: 'fas fa-signal', color: 'text-blue-400', fee: 0 },
+        // Untuk Alfamart/Indomaret/Pulsa, redirect ke WA Admin untuk mendapatkan kode bayar.
+        'Alfamart': { name: 'Alfamart', baseFee: 901, available: true, icon: 'fas fa-store', color: 'text-red-600', fee: 0, redirectURL: `https://wa.me/${adminPhoneNumber}?text=${encodeURIComponent("Halo Admin, saya mau bayar via Alfamart. Kirim kode pembayarannya ya.")}` },
+        'Indomaret': { name: 'Indomaret', baseFee: 901, available: true, icon: 'fas fa-cash-register', color: 'text-blue-600', fee: 0, redirectURL: `https://wa.me/${adminPhoneNumber}?text=${encodeURIComponent("Halo Admin, saya mau bayar via Indomaret. Kirim kode pembayarannya ya.")}` },
+        
+        'Indosat': { name: 'Indosat', baseFee: 1135, available: true, icon: 'fas fa-signal', color: 'text-yellow-400', fee: 0, redirectURL: `https://wa.me/${adminPhoneNumber}?text=${encodeURIComponent("Halo Admin, saya mau bayar via Pulsa Indosat.")}` },
+        'Telkomsel': { name: 'Telkomsel', baseFee: 1351, available: true, icon: 'fas fa-signal', color: 'text-red-400', fee: 0, redirectURL: `https://wa.me/${adminPhoneNumber}?text=${encodeURIComponent("Halo Admin, saya mau bayar via Pulsa Telkomsel.")}` },
+        'Tri Indonesia': { name: 'Tri Indonesia', baseFee: 1135, available: true, icon: 'fas fa-signal', color: 'text-green-400', fee: 0, redirectURL: `https://wa.me/${adminPhoneNumber}?text=${encodeURIComponent("Halo Admin, saya mau bayar via Pulsa Tri.")}` },
+        'XL Axiata': { name: 'XL Axiata', baseFee: 1802, available: true, icon: 'fas fa-signal', color: 'text-blue-400', fee: 0, redirectURL: `https://wa.me/${adminPhoneNumber}?text=${encodeURIComponent("Halo Admin, saya mau bayar via Pulsa XL.")}` },
 
-        'Bank Transfer': { name: 'Bank Transfer', baseFee: 0, available: false, icon: 'fas fa-university', color: 'text-yellow-500', fee: 0 },
-        'Kartu Kredit': { name: 'Kartu Kredit', baseFee: 0, available: false, icon: 'fas fa-credit-card', color: 'text-pink-500', fee: 0 },
-        'Smartfren': { name: 'Smartfren', baseFee: 0, available: 'maintenance', icon: 'fas fa-tools', color: 'text-gray-600', fee: 0 },
+        'Bank Transfer': { name: 'Bank Transfer', baseFee: 0, available: false, icon: 'fas fa-university', color: 'text-yellow-500', fee: 0, redirectURL: 'https://unavailable.com' },
+        'Kartu Kredit': { name: 'Kartu Kredit', baseFee: 0, available: false, icon: 'fas fa-credit-card', color: 'text-pink-500', fee: 0, redirectURL: 'https://unavailable.com' },
+        'Smartfren': { name: 'Smartfren', baseFee: 0, available: 'maintenance', icon: 'fas fa-tools', color: 'text-gray-600', fee: 0, redirectURL: 'https://unavailable.com' },
     };
-    
-    // Variabel global untuk menyimpan pilihan pembayaran saat ini
-    let selectedPayment = null; 
-
-    // FUNGSI UNTUK MENGFORMAT ANGKA MENJADI RUPIAH
-    function formatRupiah(angka, prefix) {
-        let number_string = angka.toString().replace(/[^,\d]/g, ''),
-            split    = number_string.split(','),
-            sisa     = split[0].length % 3,
-            rupiah   = split[0].substr(0, sisa),
-            ribuan   = split[0].substr(sisa).match(/\d{3}/gi);
-            
-        if(ribuan){
-            separator = sisa ? '.' : '';
-            rupiah += separator + ribuan.join('.');
-        }
-        
-        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-        return prefix == undefined ? rupiah : (rupiah ? 'Rp' + rupiah : 'Rp0');
-    }
-    
-    // FUNGSI BARU: Menghasilkan biaya acak di sekitar biaya dasar
-    function generateRandomFee(baseFee) {
-        if (baseFee === 0) return 0;
-        
-        const minChange = -100; // Minimal turun 100
-        const maxChange = 100;  // Maksimal naik 100
-        
-        // Menghitung perubahan acak
-        const randomChange = Math.floor(Math.random() * (maxChange - minChange + 1)) + minChange;
-        
-        let newFee = baseFee + randomChange;
-        
-        // Memastikan biaya tidak kurang dari Rp0
-        if (newFee < 0) newFee = 0;
-        
-        // Opsional: Pembulatan ke satuan terdekat agar sesuai dengan contoh (901, 1135, dsb)
-        // Kita tidak melakukan pembulatan ke puluhan di sini.
-        
-        return newFee;
-    }
-
-
-    // FUNGSI BARU: Untuk menampilkan daftar metode pembayaran
-    function generatePaymentList() {
-        const listContainer = document.getElementById('paymentMethodList');
-        listContainer.innerHTML = ''; // Clear existing list
-
-        // Mengurutkan kunci agar DANA, GOPAY, QRIS muncul di awal (Opsional)
-        const sortedKeys = Object.keys(PAYMENT_METHODS).sort((a, b) => {
-            if (a === 'Dana') return -1;
-            if (b === 'Dana') return 1;
-            if (a === 'GoPay') return -1;
-            if (b === 'GoPay') return 1;
-            if (a === 'QRIS') return -1;
-            if (b === 'QRIS') return 1;
-            return 0;
-        });
-
-        for (const key of sortedKeys) {
-            const method = PAYMENT_METHODS[key];
-            const isSelected = selectedPayment && selectedPayment.name === method.name;
-            
-            let statusText;
-            let statusClass;
-            
-            if (method.available === false) {
-                statusText = 'Tidak tersedia';
-                statusClass = 'text-red-500';
-            } else if (method.available === 'maintenance') {
-                statusText = 'Maintenance';
-                statusClass = 'text-gray-500 italic';
-            } else {
-                // Menggunakan nilai 'fee' yang sudah dihitung acak
-                statusText = formatRupiah(method.fee, 'Rp'); 
-                statusClass = 'text-green-400';
-            }
-
-            const buttonClass = method.available === false || method.available === 'maintenance' ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-600 cursor-pointer';
-            const selectedClass = isSelected ? 'border-2 border-yellow-500 bg-gray-700' : 'border border-gray-600 bg-gray-700';
-
-            const buttonHtml = `
-                <div 
-                    class="flex items-center justify-between p-3 rounded-lg ${selectedClass} ${buttonClass}"
-                    data-payment-name="${method.name}"
-                    onclick="selectPaymentMethod('${method.name}', ${method.available === true})"
-                >
-                    <div class="flex items-center">
-                        <i class="${method.icon} ${method.color} text-xl mr-3 w-6 text-center"></i>
-                        <span class="font-medium text-white">${method.name}</span>
-                    </div>
-                    <span class="font-bold ${statusClass}">
-                        ${statusText}
-                    </span>
-                </div>
-            `;
-            listContainer.innerHTML += buttonHtml;
-        }
-    }
-
-    // FUNGSI BARU: Untuk memilih metode pembayaran
-    function selectPaymentMethod(methodName, isAvailable) {
-        if (!isAvailable) {
-            return;
-        }
-
-        const method = PAYMENT_METHODS[methodName];
-        selectedPayment = method;
-
-        // Tampilkan detail pembayaran (DANA/QRIS saja)
-        displayPaymentDetails();
-        
-        // Perbarui tampilan total harga dan biaya admin
-        updateTotalDisplay();
-        
-        // Generate ulang daftar untuk update highlight
-        generatePaymentList();
-    }
-    
-    // FUNGSI BARU: Menampilkan detail DANA/QRIS saat dipilih
-    function displayPaymentDetails() {
-        const container = document.getElementById('paymentDetailContainer');
-        const method = selectedPayment;
-        
-        container.classList.add('hidden');
-        container.innerHTML = '';
-        
-        let content = '';
-        
-        if (!method) return;
-        
-        const basePriceRaw = parseInt(document.getElementById('itemSelect').options[document.getElementById('itemSelect').selectedIndex].getAttribute('data-price')) || 0;
-        const totalBayar = method.fee + basePriceRaw;
-
-        if (method.name === 'Dana') {
-            content = `
-                <div class="bg-green-900 bg-opacity-30 p-4 rounded-lg border border-green-600">
-                    <h4 class="text-lg font-bold text-green-400 mb-2 flex items-center">
-                        <i class="fas fa-wallet mr-2"></i> Pembayaran melalui DANA
-                    </h4>
-                    <p class="text-white">
-                        Nomor DANA: <span class="font-bold text-lg text-yellow-300">${danaAccount}</span>
-                    </p>
-                    <p class="text-white">
-                        A/N: <span class="font-bold text-lg text-yellow-300">${danaAccountName}</span>
-                    </p>
-                </div>
-            `;
-        } else if (method.name === 'QRIS') {
-            content = `
-                <div class="bg-blue-900 bg-opacity-30 p-4 rounded-lg border border-blue-600 text-center">
-                    <h4 class="text-lg font-bold text-blue-400 mb-2 flex items-center justify-center">
-                        <i class="fas fa-qrcode mr-2"></i> Pembayaran melalui QRIS
-                    </h4>
-                    <p class="text-sm text-yellow-300 mb-2">
-                        **Pastikan nominal transfer Anda adalah ${formatRupiah(totalBayar, 'Rp')}**
-                    </p>
-                    <img src="${qrisImageUrl}" alt="QRIS Code" class="mx-auto w-32 h-32 mb-3 border border-gray-600 rounded-lg">
-                </div>
-            `;
-        } else {
-             // Untuk metode lain, tampilkan pesan generik
-             content = `
-                <div class="bg-gray-700 bg-opacity-70 p-4 rounded-lg border border-gray-600">
-                    <h4 class="text-lg font-bold text-white mb-2 flex items-center">
-                        <i class="fas fa-info-circle mr-2"></i> Catatan Pembayaran
-                    </h4>
-                    <p class="text-white text-sm">
-                        Lakukan transfer sebesar **Total yang Harus Dibayar** (${formatRupiah(totalBayar, 'Rp')}) ke **nomor Admin di WhatsApp** menggunakan metode **${method.name}**.
-                    </p>
-                </div>
-            `;
-        }
-        
-        if (content) {
-            container.innerHTML = content;
-            container.classList.remove('hidden');
-        }
-    }
-
-
-    // FUNGSI UTAMA: Mengupdate Tampilan Total Harga dan Biaya Admin
-    function updateTotalDisplay() {
-        const select = document.getElementById('itemSelect');
-        const selectedOption = select.options[select.selectedIndex];
-        const basePriceRaw = parseInt(selectedOption.getAttribute('data-price')) || 0;
-        
-        // Menggunakan nilai 'fee' yang sudah diacak
-        const adminFee = selectedPayment ? selectedPayment.fee : 0; 
-        const totalFinal = basePriceRaw + adminFee;
-
-        const gameId = document.getElementById('gameIdInputModal').value;
-        const whatsappButton = document.querySelector('.whatsapp-btn');
-        
-        // Update tampilan harga
-        document.getElementById('basePriceDisplay').innerText = formatRupiah(basePriceRaw, 'Rp');
-        document.getElementById('adminFeeDisplay').innerText = formatRupiah(adminFee, 'Rp');
-        document.getElementById('displayPrice').innerText = formatRupiah(totalFinal, 'Rp');
-        
-        // Update nama metode pembayaran di biaya admin
-        document.getElementById('selectedPaymentMethodName').innerText = selectedPayment ? selectedPayment.name : 'Belum dipilih';
-
-        // Update status tombol WhatsApp (memerlukan item, ID, dan pembayaran)
-        const isReady = basePriceRaw > 0 && gameId && selectedPayment;
-        
-        if (isReady) {
-            whatsappButton.disabled = false;
-            whatsappButton.style.opacity = '1';
-        } else {
-            whatsappButton.disabled = true;
-            whatsappButton.style.opacity = '0.5';
-        }
-
-        // Tampilkan detail pembayaran saat total diupdate (untuk memastikan detail tetap ada)
-        if (selectedPayment) {
-             displayPaymentDetails();
-        }
-    }
-
-    // FUNGSI UNTUK MEMBUKA MODAL CHECKOUT
-    function openModal() {
-        // Reset pilihan saat modal dibuka
-        document.getElementById('itemSelect').selectedIndex = 0;
-        document.getElementById('gameIdInputModal').value = ''; 
-        selectedPayment = null; // Reset pilihan pembayaran
-        
-        // HITUNG ULANG BIAYA ADMIN SECARA ACAK
-        for (const key in PAYMENT_METHODS) {
-            const method = PAYMENT_METHODS[key];
-            if (method.available === true) {
-                // Mengisi properti 'fee' dengan nilai acak yang baru dari 'baseFee'
-                method.fee = generateRandomFee(method.baseFee);
-            } else {
-                 method.fee = 0; // Biaya tetap 0 jika tidak tersedia
-            }
-        }
-        
-        // Sembunyikan detail payment saat awal buka
-        document.getElementById('paymentDetailContainer').classList.add('hidden');
-        document.getElementById('paymentDetailContainer').innerHTML = '';
-
-        generatePaymentList(); // Tampilkan daftar pembayaran
-        updateTotalDisplay(); // Menginisialisasi harga dan status tombol WA
-        
-        // Tampilkan Modal
-        document.getElementById('checkoutModal').classList.remove('modal-hidden');
-        document.getElementById('checkoutModal').style.display = 'flex'; 
-    }
-
-    // FUNGSI UNTUK MENUTUP MODAL CHECKOUT
-    function closeModal() {
-        // Sembunyikan Modal
-        document.getElementById('checkoutModal').classList.add('modal-hidden');
-        document.getElementById('checkoutModal').style.display = 'none'; 
-    }
-
-    // FUNGSI UNTUK MENGARAHKAN KE WHATSAPP DENGAN DATA
-    function redirectToWhatsApp() {
-        const select = document.getElementById('itemSelect');
-        const selectedOption = select.options[select.selectedIndex];
-        const selectedItem = selectedOption.value;
-        const basePriceRaw = parseInt(selectedOption.getAttribute('data-price')) || 0;
-        // Mengambil biaya admin yang sudah diacak saat dipilih
-        const adminFee = selectedPayment ? selectedPayment.fee : 0; 
-        const totalFinal = basePriceRaw + adminFee;
-
-        const gameId = document.getElementById('gameIdInputModal').value; 
-        
-        // Data Pembayaran
-        const selectedPaymentName = selectedPayment ? selectedPayment.name : 'TIDAK TERPILIH';
-        const totalFinalFormatted = formatRupiah(totalFinal, 'Rp');
-
-        // VALIDASI AKHIR
-        if (!gameId || !selectedItem || !selectedPayment) {
-            alert("Mohon lengkapi pilihan item, ID Akun, dan metode pembayaran.");
-            return;
-        }
-
-
-        // *************** PESAN WHATSAPP ***************
-        const message = `Halo Admin, saya sudah transfer untuk order JOKI FISH IT.
-        
-*DETAIL ORDER:*
-- Item: ${selectedItem}
-- Harga Item: ${formatRupiah(basePriceRaw, 'Rp')}
-- Biaya Admin: ${formatRibuah(adminFee, 'Rp')}
-- TOTAL BAYAR: ${totalFinalFormatted}
-- ID Game: ${gameId}
-- Bayar via: ${selectedPaymentName}
-
-Saya sudah transfer. Mohon segera dicek dan diproses ya. (Jangan lupa sertakan bukti transfer)`;
-        // ***************************************************************
-        
-        // Redirect ke WhatsApp
-        const whatsappLink = `https://wa.me/${adminPhoneNumber}?text=${encodeURIComponent(message)}`;
-        window.open(whatsappLink, '_blank');
-        
-        // Tutup modal setelah mengarahkan
-        closeModal();
-    }
-
-    // Event listener untuk update saat input ID berubah dan saat item dipilih
-    document.getElementById('gameIdInputModal').addEventListener('input', updateTotalDisplay);
-    document.getElementById('itemSelect').addEventListener('change', updateTotalDisplay);
-
-
-    // Panggil saat halaman dimuat untuk inisialisasi
-    document.addEventListener('DOMContentLoaded', () => {
-        // openModal akan dipanggil saat tombol diklik, jadi hanya inisialisasi display awal
-        updateTotalDisplay();
-    });
-
-  </script>
- </body>
-</html>
