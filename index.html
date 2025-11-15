@@ -360,14 +360,14 @@
 
   <div id="checkoutModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center modal-hidden z-50 p-4" style="display: none;">
       <div class="bg-gray-800 rounded-xl p-6 w-full max-w-md shadow-2xl relative max-h-[85vh] overflow-y-auto">
-      <button class="absolute top-3 right-3 text-gray-400 hover:text-white" onclick="closeModal()">
+          <button class="absolute top-3 right-3 text-gray-400 hover:text-white" onclick="closeModal()">
               <i class="fas fa-times text-2xl"></i>
           </button>
           
           <div class="text-center mb-4 border-b border-gray-700 pb-4">
             <h2 class="text-3xl font-bold text-red-400">
                 <i class="fas fa-lock text-xl mr-2"></i>
-                Checkout & Konfirmasi Order
+                Order & Konfirmasi
             </h2>
           </div>
 
@@ -408,28 +408,10 @@
                 </select>
 
                 <label class="block text-gray-400 mb-1" for="gameIdInput">ID Akun (User ID)</label>
-                <input class="input-field" id="gameIdInputModal" placeholder="Contoh: 12345678" type="text"/>
+                <input class="input-field" id="gameIdInputModal" placeholder="Masukkan ID Akun Anda (Contoh: 12345678)" type="text"/>
 
              </div>
-
-             <div class="border-t border-gray-700 pt-6">
-                <h3 class="text-xl font-bold text-white mb-3">
-                   Informasi Kontak Pembeli
-                </h3>
-                
-                <label class="block text-gray-400 mb-1" for="namaLengkap">Nama Lengkap</label>
-                <input class="input-field" id="namaLengkap" placeholder="Masukkan nama lengkap" type="text"/>
-                
-                <label class="block text-gray-400 mb-1" for="email">Email</label>
-                <input class="input-field" id="email" placeholder="Masukkan Email" type="email"/>
-                
-                <label class="block text-gray-400 mb-1" for="whatsappNumber">Nomor WhatsApp</label>
-                <input class="input-field" id="whatsappNumber" placeholder="Contoh: 628123456789" type="tel"/>
-                <p class="text-sm text-red-400 mt-[-10px] mb-4">
-                   **Penting:** Pastikan nomor WhatsApp aktif untuk konfirmasi order.
-                </p>
-             </div>
-
+             
              <div class="border-t border-gray-700 pt-6">
                 <h3 class="text-xl font-bold text-white mb-3">
                    Ringkasan Pembayaran
@@ -437,7 +419,7 @@
                 
                 <div class="bg-gray-700 p-4 rounded-lg flex items-center justify-between border-2 border-blue-500 mb-4">
                      <div class="flex items-center">
-                      <i class="fas fa-mobile-alt text-2xl text-blue-400 mr-3">
+                      <i class="fas fa-money-bill-wave text-2xl text-blue-400 mr-3">
                       </i>
                       <span class="font-semibold text-white">
                        TOTAL HARGA:
@@ -453,7 +435,7 @@
                     Lanjut & Konfirmasi Order (WhatsApp)
                 </button>
                 <p class="text-xs text-gray-500 mt-2 text-center">
-                    Anda akan diarahkan ke WhatsApp untuk menerima detail pembayaran.
+                    Anda akan diarahkan ke WhatsApp untuk mengirim ID dan menerima detail pembayaran.
                 </p>
              </div>
 
@@ -503,6 +485,7 @@
     function openModal() {
         // Reset harga dan pilihan saat modal dibuka
         document.getElementById('itemSelect').selectedIndex = 0;
+        document.getElementById('gameIdInputModal').value = ''; // Clear ID
         updatePriceDisplay(); 
         // Hapus kelas 'modal-hidden' dan atur display ke 'flex' untuk memunculkan modal
         document.getElementById('checkoutModal').classList.remove('modal-hidden');
@@ -524,44 +507,35 @@
         const selectedPriceRaw = selectedOption.getAttribute('data-price');
         const selectedPrice = formatRupiah(selectedPriceRaw, 'Rp');
 
+        const gameId = document.getElementById('gameIdInputModal').value; 
+
         // VALIDASI SEBELUM MENGIRIM
-        if (!selectedItem) {
+        if (!selectedItem || selectedPriceRaw === '0') {
             alert("Mohon pilih item Joki yang ingin Anda beli terlebih dahulu.");
             return;
         }
 
-        // Ambil data dari Modal (Checkout)
-        const buyerName = document.getElementById('namaLengkap').value;
-        const buyerEmail = document.getElementById('email').value;
-        const whatsappNumber = document.getElementById('whatsappNumber').value;
-        const gameId = document.getElementById('gameIdInputModal').value; 
+        if (!gameId) {
+            alert("Mohon masukkan ID Akun Anda.");
+            return;
+        }
 
         // GANTI DENGAN NOMOR WA ANDA
         const adminPhoneNumber = '6285384046610'; 
         const danaAccount = '0895419044411'; // Nomor DANA Anda
         const danaAccountName = 'ridho'; // A/N DANA Anda
 
-        // Pesan WhatsApp FINAL: Memuat semua detail order dan detail DANA
+        // Pesan WhatsApp FINAL: Disederhanakan
         const message = `Halo Admin, saya ingin order JOKI FISH IT.
         
 *DETAIL ORDER:*
 - Item: ${selectedItem}
 - Harga: ${selectedPrice}
-        
-*INFORMASI PEMBELI:*
-- Nama: ${buyerName || 'Belum diisi'}
-- Email: ${buyerEmail || 'Belum diisi'}
-- No. WA: ${whatsappNumber || 'Belum diisi'}
-- ID AKUN: ${gameId || 'Belum diisi'}
+- ID AKUN: ${gameId}
 
-*DETAIL PEMBAYARAN:*
-Total yang harus dibayar adalah **${selectedPrice}**.
-Mohon transfer ke E-WALLET DANA kami.
+Mohon kirimkan detail kontak (Nama & Nomor WA) untuk konfirmasi order dan detail pembayaran.
 
-Nomor DANA: ${danaAccount}
-A/N: ${danaAccountName}
-
-Setelah transfer, mohon kirimkan bukti pembayaran. Terima kasih.`;
+Terima kasih.`;
         
         // Redirect ke WhatsApp
         const whatsappLink = `https://wa.me/${adminPhoneNumber}?text=${encodeURIComponent(message)}`;
