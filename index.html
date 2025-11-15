@@ -1,854 +1,531 @@
-<html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
-   JOKI & JUAL BELI - Layanan Game Profesional
-  </title>
-  <script src="https://cdn.tailwindcss.com">
-  </script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fish It Store - Joki & Jual Beli</title>
   <style>
-   /* Custom button styles */
-        .btn-primary {
-            background-color: #3b82f6; /* Blue */
-            color: white;
-            border-radius: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            font-weight: 600;
-            transition: all 0.2s ease-in-out;
-        }
-        .btn-primary:hover {
-            background-color: #2563eb;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        .btn-secondary {
-            background-color: white;
-            color: #3b82f6;
-            border: 1px solid #3b82f6;
-            border-radius: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            font-weight: 600;
-            transition: all 0.2s ease-in-out;
-        }
-        .btn-secondary:hover {
-            background-color: #eff6ff;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        .card-bg { background-color: #1a202c; }
-        .card-border-joki-afk { border-bottom: 4px solid #facc15; }
-        .card-border-joki-coin { border-bottom: 4px solid #22c55e; }
-        .card-border-joki-rod { border-bottom: 4px solid #3b82f6; }
-        .banner-container {
-            height: 250px;
-            background-size: cover;
-            background-position: center;
-            border-radius: 1rem;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-            margin-bottom: 2.5rem;
-        }
-        .input-field {
-            background-color: #2d3748;
-            border: 1px solid #4a5568;
-            color: white;
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            width: 100%;
-            box-sizing: border-box;
-            margin-bottom: 1rem;
-        }
-        .select-field {
-            background-color: #2d3748;
-            border: 1px solid #4a5568;
-            color: white;
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            width: 100%;
-            box-sizing: border-box;
-            margin-bottom: 1rem;
-            /* Ensure the dropdown arrow is visible */
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg'%3e");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 1em;
-        }
-        /* PENTING: Mengubah modal-hidden untuk memastikan hidden */
-        .modal-hidden {
-            display: none !important;
-        }
-        
-        .whatsapp-btn {
-            background-color: #25d366; /* WhatsApp Green */
-            color: white;
-            border-radius: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            font-weight: 600;
-            transition: all 0.2s ease-in-out;
-        }
-        .whatsapp-btn:hover {
-            background-color: #1faa58;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        .whatsapp-btn:disabled {
-            background-color: #1faa58;
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
+    /* ==================== Global ==================== */
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121417;
+      color: #eee;
+    }
+    header {
+      background-color: #007bff;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+    header p {
+      margin-top: 5px;
+      font-weight: 500;
+      font-size: 1.1em;
+      color: #d7e0ff;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    /* Search bar */
+    .search-bar {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .search-bar input {
+      width: 100%;
+      max-width: 400px;
+      padding: 10px;
+      border: 1px solid #444c5c;
+      border-radius: 25px;
+      font-size: 16px;
+      background-color: #222830;
+      color: #eee;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+    .search-bar input::placeholder {
+      color: #777f94;
+    }
+    .search-bar input:focus {
+      border-color: #ff586b;
+      background-color: #2c323f;
+      color: #fff;
+    }
+    /* Categories layout */
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 15px;
+      margin-bottom: 40px;
+    }
+    .category {
+      background-color: #1e242e;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(255, 88, 107, 0.2);
+      width: 320px;
+      margin: 10px auto;
+      padding: 25px 20px 30px;
+      text-align: center;
+      color: #ddd;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .category:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 6px 20px rgba(255, 88, 107, 0.5);
+    }
+    .category h2 {
+      color: #ff586b;
+      margin-bottom: 15px;
+      font-weight: 700;
+      font-size: 1.8em;
+    }
+    /* Item cards */
+    .item {
+      display: flex;
+      align-items: center;
+      background-color: #2a303b;
+      margin-bottom: 15px;
+      padding: 12px 15px;
+      border-radius: 8px;
+      box-shadow: inset 0 0 5px #ff586b30;
+      transition: background-color 0.3s ease;
+    }
+    .item:hover {
+      background-color: #383f4d;
+    }
+    .item img {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      margin-right: 18px;
+      object-fit: cover;
+      border: 2px solid #ff586b;
+    }
+    .item-details {
+      flex-grow: 1;
+      text-align: left;
+    }
+    .item-details h3 {
+      margin: 0;
+      font-size: 19px;
+      font-weight: 600;
+      color: #ffa3b6;
+    }
+    .item-details p {
+      margin: 6px 0 0 0;
+      color: #bbb;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    /* Beli Sekarang button */
+    .buy-btn {
+      background-color: #ff586b;
+      border: none;
+      color: white;
+      padding: 15px 60px;
+      font-size: 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: block;
+      margin: 30px auto;
+      max-width: 280px;
+      transition: background-color 0.3s ease;
+      font-weight: 700;
+      box-shadow: 0 0 12px rgba(255, 88, 107, 0.7);
+      text-align: center;
+      user-select:none;
+    }
+    .buy-btn:hover {
+      background-color: #d1405a;
+      box-shadow: 0 0 22px rgba(255, 88, 107, 0.9);
+    }
+    /* ================= Modals ================= */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1100;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      overflow: auto;
+      background-color: rgba(18,20,23,0.95);
+      /* dark transparent background */
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+    }
+    .modal-content {
+      background-color: #22262c;
+      margin: 50px auto;
+      border-radius: 12px;
+      padding: 30px 35px;
+      width: 90%;
+      max-width: 470px;
+      box-shadow: 0 5px 32px rgba(255, 88, 107, 0.6);
+      color: #ddd;
+      max-height: 85vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      font-size: 16px;
+    }
+    /* Scrollbar in modal */
+    .modal-content::-webkit-scrollbar {
+      width: 8px;
+    }
+    .modal-content::-webkit-scrollbar-thumb {
+      background-color: #ff586b;
+      border-radius: 6px;
+    }
+
+    .modal-header {
+      font-size: 1.7em;
+      font-weight: 700;
+      color: #ff586b;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-header span.close {
+      cursor: pointer;
+      font-size: 2em;
+      color: #888;
+      transition: color 0.3s ease;
+      user-select:none;
+    }
+    .modal-header span.close:hover {
+      color: #ff586b;
+    }
+    label {
+      font-weight: 600;
+      margin: 12px 0 6px 0;
+      display: block;
+      color: #ccc;
+    }
+    select, input[type=text] {
+      width: 100%;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      border-radius: 8px;
+      border: none;
+      background-color: #2f353d;
+      color: #eee;
+      font-size: 16px;
+      outline: none;
+      transition: background-color 0.3s ease;
+      user-select:text;
+    }
+    select:focus, input[type=text]:focus {
+      background-color: #3f4650;
+    }
+    /* Payment list */
+    .payment-list {
+      background-color: #2f353d;
+      padding: 15px 20px;
+      border-radius: 12px;
+      max-height: 150px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      box-shadow: inset 0 0 15px #ff586b60;
+    }
+    .payment-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #444a56;
+      cursor: default;
+    }
+    .payment-item:last-child {
+      border-bottom: none;
+    }
+    .payment-item .icon {
+      display: flex;
+      align-items: center;
+    }
+    .icon-box {
+      width: 36px; height: 36px;
+      background-color: #454d59;
+      border-radius: 8px;
+      margin-right: 15px;
+      color: white;
+      font-weight: 700;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      user-select:none;
+    }
+    .payment-name {
+      font-weight: 700;
+      color: #ddd;
+      user-select:none;
+    }
+    .payment-price {
+      color: #4cd137;
+      font-weight: 700;
+      min-width: 65px;
+      text-align: right;
+      user-select:none;
+    }
+    /* Confirm button */
+    .confirm-btn {
+      background-color: #ff586b;
+      border: none;
+      padding: 15px 0;
+      font-weight: 800;
+      font-size: 20px;
+      border-radius: 12px;
+      color: white;
+      cursor: pointer;
+      margin-top: auto;
+      box-shadow: 0 0 18px rgba(255, 88, 107, 0.9);
+      transition: background-color 0.3s ease;
+    }
+    .confirm-btn:hover {
+      background-color: #d44056;
+    }
+    /* Responsive */
+    @media (max-width: 480px) {
+      .modal-content {
+        width: 95%;
+        margin: 30px auto;
+        padding: 25px;
+      }
+      .buy-btn {
+        width: 90%;
+        padding: 15px;
+        font-size: 18px;
+      }
+      .category {
+        width: 95%;
+        margin: 15px auto;
+      }
+    }
+    footer {
+      text-align: center;
+      color: #888ea8;
+      padding: 20px;
+      font-size: 14px;
+      user-select:none;
+    }
   </style>
- </head>
- <body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col items-center py-10 px-4 font-sans">
-  
-  
-  <header class="text-center mb-8 w-full max-w-4xl">
-   <div class="flex items-center justify-center mb-4">
-    <i class="fas fa-trophy text-5xl text-yellow-400 mr-4">
-    </i>
-    <h1 class="text-5xl font-extrabold text-white leading-tight">
-     <span class="text-yellow-400">
-      _JOKI & JUAL BELI_
-     </span>
-    </h1>
-   </div>
-   <p class="text-xl text-gray-400 max-w-2xl mx-auto">
-    Layanan profesional untuk kebutuhan game Anda. Pilih layanan di bawah!
-   </p>
+</head>
+<body>
+  <header>
+    <h1>Fish It Store</h1>
+    <p>Joki & Jual Beli Item Game Fish It</p>
   </header>
-  
-  <div class="w-full max-w-4xl banner-container" style="background-image: url('https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Fish_It_-_Screenshot_2.width-1200.png');">
-   <div class="w-full h-full bg-black bg-opacity-30 rounded-xl flex items-center justify-center">
-    <h2 class="text-4xl font-bold text-white tracking-widest uppercase">
-     JOKI FISH IT
-    </h2>
-   </div>
+
+  <div class="container">
+    <div class="search-bar">
+      <input type="text" placeholder="Cari item atau joki..." />
+    </div>
+
+    <div class="categories">
+      <div class="category" aria-label="Kategori Joki AFK">
+        <h2>🎮 Joki AFK</h2>
+        <div class="item">
+          <img src="https://via.placeholder.com/60x60?text=AFK" alt="Joki AFK 1 Hari" />
+          <div class="item-details">
+            <h3>1 Hari</h3>
+            <p>Rp 10.000</p>
+          </div>
+        </div>
+        <div class="item">
+          <img src="https://via.placeholder.com/60x60?text=AFK" alt="Joki AFK 7 Hari" />
+          <div class="item-details">
+            <h3>7 Hari</h3>
+            <p>Rp 35.000</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="category" aria-label="Kategori Joki Coin">
+        <h2>💰 Joki Coin</h2>
+        <div class="item">
+          <img src="https://via.placeholder.com/60x60?text=Coin" alt="Joki Coin 1M" />
+          <div class="item-details">
+            <h3>1M Coin</h3>
+            <p>Rp 7.000</p>
+          </div>
+        </div>
+        <div class="item">
+          <img src="https://via.placeholder.com/60x60?text=Coin" alt="Joki Coin 4M" />
+          <div class="item-details">
+            <h3>4M Coin</h3>
+            <p>Rp 35.000</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="category" aria-label="Kategori Joki Rod & Bobber">
+        <h2>🎣 Joki Rod & Bobber</h2>
+        <h3>🔹 ROD 🔹</h3>
+        <div class="item">
+          <img src="https://via.placeholder.com/60x60?text=Rod" alt="Rod Element" />
+          <div class="item-details">
+            <h3>Element</h3>
+            <p>Rp 100.000</p>
+          </div>
+        </div>
+        <div class="item">
+          <img src="https://via.placeholder.com/60x60?text=Rod" alt="Rod Ghostfinn" />
+          <div class="item-details">
+            <h3>Ghostfinn</h3>
+            <p>Rp 65.000</p>
+          </div>
+        </div>
+        <h3>🔹 BOBBER 🔹</h3>
+        <div class="item">
+          <img src="https://via.placeholder.com/60x60?text=Bobber" alt="Bobber Singularity" />
+          <div class="item-details">
+            <h3>Singularity</h3>
+            <p>Rp 45.000</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Button memanggil modal -->
+    <button class="buy-btn" id="openModalBtn" aria-haspopup="dialog" aria-controls="orderModal" aria-expanded="false">Beli Sekarang</button>
   </div>
-  
-  
-  <main class="w-full max-w-4xl space-y-10">
-   
-   <section class="card-bg rounded-xl p-8 shadow-2xl card-border-joki-afk">
-    <div class="flex items-center mb-6">
-     <i class="fas fa-gamepad text-4xl text-yellow-400 mr-4">
-     </i>
-     <h2 class="text-3xl font-bold text-yellow-300">
-      🎮 JOKI AFK 🎮
-     </h2>
-    </div>
-    <hr class="border-gray-700 mb-6"/>
-    <ul class="text-lg space-y-3">
-     <li class="flex justify-between items-center bg-gray-700 p-3 rounded-md">
-      <span class="font-medium text-gray-300">
-       1 Hari
-      </span>
-      <span class="font-bold text-white text-xl">
-       10K
-      </span>
-     </li>
-     <li class="flex justify-between items-center bg-gray-700 p-3 rounded-md">
-      <span class="font-medium text-gray-300">
-       7 Hari
-      </span>
-      <span class="font-bold text-white text-xl">
-       35K
-      </span>
-     </li>
-     <li class="flex justify-between items-center bg-gray-700 p-3 rounded-md">
-      <span class="font-medium text-gray-300">
-       30 Hari
-      </span>
-      <span class="font-bold text-white text-xl">
-       65K
-      </span>
-     </li>
-    </ul>
-   </section>
-   
-   <section class="card-bg rounded-xl p-8 shadow-2xl card-border-joki-coin">
-    <div class="flex items-center mb-6">
-     <i class="fas fa-coins text-4xl text-green-400 mr-4">
-     </i>
-     <h2 class="text-3xl font-bold text-green-300">
-      💰 JOKI COIN 💰
-     </h2>
-    </div>
-    <hr class="border-gray-700 mb-6"/>
-    <ul class="text-lg space-y-3">
-     <li class="flex justify-between items-center bg-gray-700 p-3 rounded-md">
-      <span class="font-medium text-gray-300">
-       1M Coin
-      </span>
-      <span class="font-bold text-white text-xl">
-       7K
-      </span>
-     </li>
-     <li class="flex justify-between items-center bg-gray-700 p-3 rounded-md">
-      <span class="font-medium text-gray-300">
-       4M Coin
-      </span>
-      <span class="font-bold text-white text-xl">
-       35K
-      </span>
-     </li>
-     <li class="text-center text-gray-400 italic pt-3">
-      dan seterusnya...
-     </li>
-    </ul>
-   </section>
-   
-   <section class="card-bg rounded-xl p-8 shadow-2xl card-border-joki-rod">
-    <div class="flex items-center mb-6">
-     <i class="fas fa-fishing-rod text-4xl text-blue-400 mr-4">
-     </i>
-     <h2 class="text-3xl font-bold text-blue-300">
-      🎣 JOKI ROD & BOBBER 🎣
-     </h2>
-    </div>
-    <hr class="border-gray-700 mb-6"/>
-    
-    <div class="mb-8">
-     <h3 class="text-2xl font-semibold mb-4 text-center text-blue-200 flex items-center justify-center">
-      <i class="fas fa-fish text-xl mr-2">
-      </i>
-      🔹 ROD 🔹
-     </h3>
-     <ul class="text-lg space-y-3">
-      <li class="flex justify-between items-center bg-gray-700 p-3 rounded-md">
-       <span class="font-medium text-gray-300">
-        Element
-       </span>
-       <span class="font-bold text-white text-xl">
-        120K
-       </span>
-      </li>
-      <li class="flex justify-between items-center bg-gray-700 p-3 rounded-md">
-       <span class="font-medium text-gray-300">
-        Ghostfinn
-       </span>
-       <span class="font-bold text-white text-xl">
-        65K
-       </span>
-      </li>
-      <li class="flex justify-between items-center bg-gray-700 p-3 rounded-md">
-       <span class="font-medium text-gray-300">
-        Bamboo
-       </span>
-       <span class="font-bold text-white text-xl">
-        50K
-       </span>
-      </li>
-      <li class="flex justify-between items-center bg-gray-700 p-3 rounded-md">
-       <span class="font-medium text-gray-300">
-        Angler
-       </span>
-       <span class="font-bold text-white text-xl">
-        35K
-       </span>
-      </li>
-      <li class="flex justify-between items-center bg-gray-700 p-3 rounded-md">
-       <span class="font-medium text-gray-300">
-        Ares
-       </span>
-       <span class="font-bold text-white text-xl">
-        20K
-       </span>
-      </li>
-      <li class="flex justify-between items-center bg-gray-700 p-3 rounded-md">
-       <span class="font-medium text-gray-300">
-        Hazmat
-       </span>
-       <span class="font-bold text-white text-xl">
-        13K
-       </span>
-      </li>
-      <li class="flex justify-between items-center bg-gray-700 p-3 rounded-md">
-       <span class="font-medium text-gray-300">
-        Astral
-       </span>
-       <span class="font-bold text-white text-xl">
-        10K
-       </span>
-      </li>
-     </ul>
-    </div>
-    
-    <div>
-     <h3 class="text-2xl font-semibold mb-4 text-center text-blue-200 flex items-center justify-center">
-      <i class="fas fa-water text-xl mr-2">
-      </i>
-      🔹 BOBBER 🔹
-     </h3>
-     <ul class="text-lg space-y-3">
-      <li class="flex justify-between items-center bg-gray-700 p-3 rounded-md">
-       <span class="font-medium text-gray-300">
-        Singularity
-       </span>
-       <span class="font-bold text-white text-xl">
-        45K
-       </span>
-      </li>
-      <li class="flex justify-between items-center bg-gray-700 p-3 rounded-md">
-       <span class="font-medium text-gray-300">
-        Floral
-       </span>
-       <span class="font-bold text-white text-xl">
-        30K
-       </span>
-      </li>
-      <li class="flex justify-between items-center bg-gray-700 p-3 rounded-md">
-       <span class="font-medium text-gray-300">
-        Aether
-       </span>
-       <span class="font-bold text-white text-xl">
-        20K
-       </span>
-      </li>
-      <li class="flex justify-between items-center bg-gray-700 p-3 rounded-md">
-       <span class="font-medium text-gray-300">
-        Corrupt
-       </span>
-       <span class="font-bold text-white text-xl">
-        15K
-       </span>
-      </li>
-     </ul>
-    </div>
-   </section>
-   
-   <section class="card-bg rounded-xl p-8 shadow-2xl text-center border-t-4 border-gray-700 space-y-6">
-    <div class="space-y-3">
-     <p class="text-lg text-gray-300 font-semibold flex items-center justify-center">
-      <i class="fas fa-map-marker-alt text-xl mr-2 text-blue-400">
-      </i>
-      📍 Catatan: Bisa request spot mancing
-     </p>
-     <p class="text-lg text-red-400 font-semibold flex items-center justify-center bg-gray-800 p-3 rounded-lg border border-red-500">
-      <i class="fas fa-exclamation-triangle text-xl mr-2">
-      </i>
-      Tabrak 2x hangus jokian di anggap selesai
-     </p>
-    </div>
-    
-    <hr class="border-gray-700 my-6"/>
-    
-    <div class="flex flex-col sm:flex-row justify-center gap-4 mt-6">
-     <button class="btn-primary text-lg flex items-center justify-center w-full sm:w-auto" onclick="openModal()">
-      <i class="fas fa-money-bill-wave text-xl mr-2">
-      </i>
-      Pesan Sekarang
-     </button>
-    </div>
-    
-    <p class="text-sm text-gray-500 mt-4">
-     (Klik 'Pesan Sekarang' untuk memilih item, memasukkan ID, dan konfirmasi order.)
-    </p>
-   </section>
 
-   <section class="card-bg rounded-xl p-8 shadow-2xl text-center border-t-4 border-gray-700 space-y-6">
-    <div class="flex items-center justify-center mb-4">
-        <h3 class="text-xl font-semibold text-gray-300 mr-4">Tanya-tanya atau order?</h3>
-        <a href="https://wa.me/6281234567890" target="_blank" class="flex items-center bg-green-500 text-white py-3 px-6 rounded-full text-lg font-bold hover:bg-green-600 transition duration-300">
-            <i class="fab fa-whatsapp text-2xl mr-3"></i>
-            Langsung PM aja yaa~~
-        </a>
-    </div>
-   </section>
-  </main>
-  
-  <footer class="mt-12 text-center text-gray-500 text-sm">
-   &copy; 2023 Joki & Jual Beli. All rights reserved.
-  </footer>
+  <!-- Modal Popup -->
+  <div id="orderModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc" tabindex="-1">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span id="modalTitle">🔒 Order & Pembayaran</span>
+        <span role="button" aria-label="Tutup modal" tabindex="0" class="close" id="closeModalBtn">&times;</span>
+      </div>
+      <div id="modalDesc" tabindex="0" style="outline:none;">
+        <form id="orderForm">
+          <label for="itemSelect">Pilih Item Joki</label>
+          <select id="itemSelect" name="itemSelect" required aria-required="true">
+            <option value="" disabled selected>-- Pilih Item yang Anda Inginkan --</option>
+            <optgroup label="Joki AFK">
+              <option value="joki-afk-1hari">Joki AFK - 1 Hari (Rp 10.000)</option>
+              <option value="joki-afk-7hari">Joki AFK - 7 Hari (Rp 35.000)</option>
+             <option value="joki-afk-7hari">Joki AFK - 30 Hari (Rp 70.000)</option>
+            </optgroup>
+            <optgroup label="Joki Coin">
+              <option value="joki-coin-1m">Joki Coin - 1M (Rp 7.000)</option>
+              <option value="joki-coin-4m">Joki Coin - 4M (Rp 35.000)</option>
+            </optgroup>
+            <optgroup label="Joki Rod & Bobber">
+              <option value="rod-element">Rod Element (Rp 100.000)</option>
+              <option value="rod-ghostfinn">Rod Ghostfinn (Rp 65.000)</option>
+              <option value="bobber-singularity">Bobber Singularity (Rp 45.000)</option>
+            </optgroup>
+          </select>
 
-  <div id="checkoutModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center modal-hidden z-50 p-4" style="display: none;">
-      <div class="bg-gray-800 rounded-xl p-6 w-full max-w-md shadow-2xl relative max-h-[85vh] overflow-y-auto">
-          <button class="absolute top-3 right-3 text-gray-400 hover:text-white" onclick="closeModal()">
-              <i class="fas fa-times text-2xl"></i>
-          </button>
-          
-          <div class="text-center mb-4 border-b border-gray-700 pb-4">
-            <h2 class="text-3xl font-bold text-red-400">
-                <i class="fas fa-lock text-xl mr-2"></i>
-                Order & Pembayaran
-            </h2>
+          <label for="userID">ID Akun (User ID)</label>
+          <input type="text" id="userID" name="userID" placeholder="Masukkan ID Akun Anda (Contoh: 12345678)" required aria-required="true" />
+
+          <label>Pilih Metode Pembayaran</label>
+          <div class="payment-list" role="list" aria-label="Daftar Metode Pembayaran">
+            <div class="payment-item" role="listitem">
+              <div class="icon">
+                <div class="icon-box" aria-hidden="true">D</div>
+                <span class="payment-name">Dana</span>
+              </div>
+              <div class="payment-price">Rp918</div>
+            </div>
+            <div class="payment-item" role="listitem">
+              <div class="icon">
+                <div class="icon-box" aria-hidden="true">G</div>
+                <span class="payment-name">GoPay</span>
+              </div>
+              <div class="payment-price">Rp853</div>
+            </div>
+            <div class="payment-item" role="listitem">
+              <div class="icon">
+                <div class="icon-box" aria-hidden="true">O</div>
+                <span class="payment-name">OVO</span>
+              </div>
+              <div class="payment-price">Rp840</div>
+            </div>
+            <div class="payment-item" role="listitem">
+              <div class="icon">
+                <div class="icon-box" aria-hidden="true">M</div>
+                <span class="payment-name">Mandiri</span>
+              </div>
+              <div class="payment-price">Rp830</div>
+            </div>
           </div>
 
-          <main class="space-y-6">
-             
-             <div>
-                <h3 class="text-xl font-bold text-white mb-3">
-                   Pilih Layanan & Detail Akun
-                </h3>
-                
-                <label class="block text-gray-400 mb-1" for="itemSelect">Pilih Item Joki</label>
-                <select id="itemSelect" class="select-field" onchange="updateTotalDisplay()">
-                    <option value="" data-price="0">-- Pilih Item yang Anda Inginkan --</option>
-                    <optgroup label="Joki AFK">
-                        <option value="Joki AFK 1 Hari" data-price="10000">1 Hari - 10K</option>
-                        <option value="Joki AFK 7 Hari" data-price="35000">7 Hari - 35K</option>
-                        <option value="Joki AFK 30 Hari" data-price="65000">30 Hari - 65K</option>
-                    </optgroup>
-                    <optgroup label="Joki Coin">
-                        <option value="Joki Coin 1M" data-price="7000">1M Coin - 7K</option>
-                        <option value="Joki Coin 4M" data-price="35000">4M Coin - 35K</option>
-                    </optgroup>
-                    <optgroup label="Joki Rod">
-                        <option value="Joki Rod Element" data-price="120000">Rod Element - 120K</option>
-                        <option value="Joki Rod Ghostfinn" data-price="65000">Rod Ghostfinn - 65K</option>
-                        <option value="Joki Rod Bamboo" data-price="50000">Rod Bamboo - 50K</option>
-                        <option value="Joki Rod Angler" data-price="35000">Rod Angler - 35K</option>
-                        <option value="Joki Rod Ares" data-price="20000">Rod Ares - 20K</option>
-                        <option value="Joki Rod Hazmat" data-price="13000">Rod Hazmat - 13K</option>
-                        <option value="Joki Rod Astral" data-price="10000">Rod Astral - 10K</option>
-                    </optgroup>
-                    <optgroup label="Joki Bobber">
-                        <option value="Joki Bobber Singularity" data-price="45000">Bobber Singularity - 45K</option>
-                        <option value="Joki Bobber Floral" data-price="30000">Bobber Floral - 30K</option>
-                        <option value="Joki Bobber Aether" data-price="20000">Bobber Aether - 20K</option>
-                        <option value="Joki Bobber Corrupt" data-price="15000">Bobber Corrupt - 15K</option>
-                    </optgroup>
-                </select>
-
-                <label class="block text-gray-400 mb-1" for="gameIdInput">ID Akun (User ID)</label>
-                <input class="input-field" id="gameIdInputModal" placeholder="Masukkan ID Akun Anda (Contoh: 12345678)" type="text"/>
-
-             </div>
-
-             <div class="border-t border-gray-700 pt-6">
-                <h3 class="text-xl font-bold text-white mb-3 flex items-center">
-                    <i class="fas fa-credit-card text-yellow-400 mr-2"></i> Pilih Metode Pembayaran
-                </h3>
-                
-                <div class="space-y-2 max-h-60 overflow-y-auto pr-2" id="paymentMethodList">
-                    </div>
-
-                <div id="paymentDetailContainer" class="mt-4 p-4 rounded-lg hidden">
-                    </div>
-             </div>
-             
-             <div class="border-t border-gray-700 pt-6">
-                <h3 class="text-xl font-bold text-white mb-3 flex items-center">
-                    <i class="fas fa-receipt text-blue-400 mr-2"></i> Ringkasan Pembayaran
-                </h3>
-                
-                <div class="bg-gray-700 p-3 rounded-lg flex items-center justify-between mb-2">
-                     <span class="font-semibold text-gray-300">Harga Item:</span>
-                     <span class="font-bold text-white" id="basePriceDisplay">Rp0</span>
-                </div>
-                
-                <div class="bg-gray-700 p-3 rounded-lg flex items-center justify-between mb-4" id="adminFeeRow">
-                     <span class="font-semibold text-gray-300">Biaya Admin (<span id="selectedPaymentMethodName">Belum dipilih</span>):</span>
-                     <span class="font-bold text-red-400" id="adminFeeDisplay">Rp0</span>
-                </div>
-
-                <div class="bg-gray-700 p-4 rounded-lg flex items-center justify-between border-2 border-yellow-500 mb-6">
-                     <span class="font-semibold text-white">TOTAL YANG HARUS DIBAYAR:</span>
-                     <span class="text-2xl font-bold text-yellow-400" id="displayPrice">Rp0</span>
-                </div>
-                
-
-                <button class="whatsapp-btn w-full text-xl flex items-center justify-center mt-6" id="redirectButton" onclick="redirectToPayment()" disabled>
-                    <i class="fas fa-external-link-alt text-2xl mr-3"></i>
-                    Lanjut ke Pembayaran
-                </button>
-                <p class="text-xs text-gray-500 mt-2 text-center">
-                    Klik ini untuk mendapatkan link pembayaran.
-                </p>
-                <hr class="border-gray-700 my-4">
-
-                <button class="btn-primary w-full text-xl flex items-center justify-center" id="confirmButton" onclick="confirmPayment()" disabled>
-                    <i class="fab fa-whatsapp text-2xl mr-3"></i>
-                    Konfirmasi Order
-                </button>
-                <p class="text-xs text-gray-500 mt-2 text-center">
-                    Wajib klik setelah melakukan pembayaran untuk kirim bukti transfer.
-                </p>
-             </div>
-
-          </main>
+          <button type="submit" class="confirm-btn" aria-label="Konfirmasi dan hubungi WhatsApp">Konfirmasi & Hubungi WA</button>
+        </form>
       </div>
+    </div>
   </div>
 
+  <footer>
+    <p>&copy; 2023 Fish It Store. Semua hak dilindungi. | 📩 Tanya-tanya atau order? Langsung PM aja yaa~ WA: 081234567890 😄</p>
+  </footer>
 
   <script>
-    // *******************************************************************
-    // ** SILAKAN GANTI NOMOR DAN NAMA AKUN DANA DI SINI **
-    // *******************************************************************
-    const adminPhoneNumber = '6281234567890'; // Ganti dengan nomor WA Anda
-    const danaAccount = '0895419044411';     // Ganti dengan NOMOR DANA Anda
-    const danaAccountName = 'ridho';         // Ganti dengan NAMA AKUN DANA Anda
-    
-    // Ganti dengan URL Gambar QRIS Anda (jika ada)
-    const qrisImageUrl = 'https://via.placeholder.com/150x150?text=QRIS+Anda'; 
+    const modal = document.getElementById("orderModal");
+    const openBtn = document.getElementById("openModalBtn");
+    const closeBtn = document.getElementById("closeModalBtn");
+    const orderForm = document.getElementById("orderForm");
 
-    // --- URL REDIRECT SETIAP METODE ---
-    // WAJIB DIGANTI dengan URL Link.id/Linktree/Halaman Pembayaran Anda
-    const QRIS_STATIC_URL = 'https://link-ke-halaman-qris-anda.com/qris-static';
-    const GOPAY_URL = 'https://link-untuk-gopay-anda.com';
-    const OVO_URL = 'https://link-untuk-ovo-anda.com';
-    // Untuk pembayaran pulsa/alfamart/indomaret, biasanya redirect ke chat WA
-    
-    // **DATA METODE PEMBAYARAN & BASE FEE (Biaya Dasar)**
-    const PAYMENT_METHODS = {
-        'GoPay': { name: 'GoPay', baseFee: 901, available: true, icon: 'fas fa-mobile-alt', color: 'text-green-500', fee: 0, redirectURL: GOPAY_URL },
-        'Dana': { name: 'Dana', baseFee: 901, available: true, icon: 'fas fa-wallet', color: 'text-blue-500', fee: 0, redirectURL: 'https://link-dana-anda.com/pembayaran' }, 
-        'QRIS': { name: 'QRIS', baseFee: 901, available: true, icon: 'fas fa-qrcode', color: 'text-indigo-500', fee: 0, redirectURL: QRIS_STATIC_URL },
-        'ShopeePay': { name: 'ShopeePay', baseFee: 901, available: true, icon: 'fas fa-shopping-bag', color: 'text-orange-500', fee: 0, redirectURL: 'https://link-shopeepay.com' },
-        'OVO': { name: 'OVO', baseFee: 901, available: true, icon: 'fas fa-circle', color: 'text-purple-500', fee: 0, redirectURL: OVO_URL },
-        'LinkAja': { name: 'LinkAja', baseFee: 901, available: true, icon: 'fas fa-link', color: 'text-red-500', fee: 0, redirectURL: 'https://link-linkaja.com' },
-        'DOKU Wallet': { name: 'DOKU Wallet', baseFee: 901, available: true, icon: 'fas fa-id-card', color: 'text-gray-500', fee: 0, redirectURL: 'https://link-doku.com' },
-        'Kredivo': { name: 'Kredivo', baseFee: 901, available: true, icon: 'fas fa-box', color: 'text-indigo-400', fee: 0, redirectURL: 'https://kredivo.com' },
-        
-        // Untuk Alfamart/Indomaret/Pulsa, redirect ke WA Admin untuk mendapatkan kode bayar.
-        'Alfamart': { name: 'Alfamart', baseFee: 901, available: true, icon: 'fas fa-store', color: 'text-red-600', fee: 0, redirectURL: `https://wa.me/${adminPhoneNumber}?text=${encodeURIComponent("Halo Admin, saya mau bayar via Alfamart. Kirim kode pembayarannya ya.")}` },
-        'Indomaret': { name: 'Indomaret', baseFee: 901, available: true, icon: 'fas fa-cash-register', color: 'text-blue-600', fee: 0, redirectURL: `https://wa.me/${adminPhoneNumber}?text=${encodeURIComponent("Halo Admin, saya mau bayar via Indomaret. Kirim kode pembayarannya ya.")}` },
-        
-        'Indosat': { name: 'Indosat', baseFee: 1135, available: true, icon: 'fas fa-signal', color: 'text-yellow-400', fee: 0, redirectURL: `https://wa.me/${adminPhoneNumber}?text=${encodeURIComponent("Halo Admin, saya mau bayar via Pulsa Indosat.")}` },
-        'Telkomsel': { name: 'Telkomsel', baseFee: 1351, available: true, icon: 'fas fa-signal', color: 'text-red-400', fee: 0, redirectURL: `https://wa.me/${adminPhoneNumber}?text=${encodeURIComponent("Halo Admin, saya mau bayar via Pulsa Telkomsel.")}` },
-        'Tri Indonesia': { name: 'Tri Indonesia', baseFee: 1135, available: true, icon: 'fas fa-signal', color: 'text-green-400', fee: 0, redirectURL: `https://wa.me/${adminPhoneNumber}?text=${encodeURIComponent("Halo Admin, saya mau bayar via Pulsa Tri.")}` },
-        'XL Axiata': { name: 'XL Axiata', baseFee: 1802, available: true, icon: 'fas fa-signal', color: 'text-blue-400', fee: 0, redirectURL: `https://wa.me/${adminPhoneNumber}?text=${encodeURIComponent("Halo Admin, saya mau bayar via Pulsa XL.")}` },
-
-        'Bank Transfer': { name: 'Bank Transfer', baseFee: 0, available: false, icon: 'fas fa-university', color: 'text-yellow-500', fee: 0, redirectURL: 'https://unavailable.com' },
-        'Kartu Kredit': { name: 'Kartu Kredit', baseFee: 0, available: false, icon: 'fas fa-credit-card', color: 'text-pink-500', fee: 0, redirectURL: 'https://unavailable.com' },
-        'Smartfren': { name: 'Smartfren', baseFee: 0, available: 'maintenance', icon: 'fas fa-tools', color: 'text-gray-600', fee: 0, redirectURL: 'https://unavailable.com' },
-    };
-    
-    let selectedPayment = null; 
-
-    // FUNGSI UNTUK MENGFORMAT ANGKA MENJADI RUPIAH
-    function formatRupiah(angka, prefix) {
-        let number_string = angka.toString().replace(/[^,\d]/g, ''),
-            split    = number_string.split(','),
-            sisa     = split[0].length % 3,
-            rupiah   = split[0].substr(0, sisa),
-            ribuan   = split[0].substr(sisa).match(/\d{3}/gi);
-            
-        if(ribuan){
-            separator = sisa ? '.' : '';
-            rupiah += separator + ribuan.join('.');
-        }
-        
-        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-        return prefix == undefined ? rupiah : (rupiah ? 'Rp' + rupiah : 'Rp0');
-    }
-    
-    // FUNGSI UNTUK MENGHASILKAN BIAYA ADMIN ACAK
-    function generateRandomFee(baseFee) {
-        if (baseFee === 0) return 0;
-        
-        const minChange = -100; 
-        const maxChange = 100;  
-        
-        const randomChange = Math.floor(Math.random() * (maxChange - minChange + 1)) + minChange;
-        
-        let newFee = baseFee + randomChange;
-        
-        if (newFee < 0) newFee = 0;
-        
-        return newFee;
-    }
-
-    // FUNGSI BARU: Untuk notifikasi order awal
-    function generateOrderNotificationLink(item, total, id, payment) {
-         const message = `[NOTIFIKASI ORDER BARU]
-Ada order masuk, link pembayaran sudah diberikan.
-- Item: ${item}
-- TOTAL: ${formatRupiah(total, 'Rp')}
-- ID Game: ${id}
-- Metode: ${payment}`;
-         return `https://wa.me/${adminPhoneNumber}?text=${encodeURIComponent(message)}`;
-    }
-
-    // FUNGSI BARU: Untuk menampilkan daftar metode pembayaran
-    function generatePaymentList() {
-        const listContainer = document.getElementById('paymentMethodList');
-        listContainer.innerHTML = ''; 
-
-        const sortedKeys = Object.keys(PAYMENT_METHODS).sort((a, b) => {
-            if (a === 'Dana') return -1;
-            if (b === 'Dana') return 1;
-            if (a === 'GoPay') return -1;
-            if (b === 'GoPay') return 1;
-            if (a === 'QRIS') return -1;
-            if (b === 'QRIS') return 1;
-            return 0;
-        });
-
-        for (const key of sortedKeys) {
-            const method = PAYMENT_METHODS[key];
-            const isSelected = selectedPayment && selectedPayment.name === method.name;
-            
-            let statusText;
-            let statusClass;
-            
-            if (method.available === false) {
-                statusText = 'Tidak tersedia';
-                statusClass = 'text-red-500';
-            } else if (method.available === 'maintenance') {
-                statusText = 'Maintenance';
-                statusClass = 'text-gray-500 italic';
-            } else {
-                statusText = formatRupiah(method.fee, 'Rp'); 
-                statusClass = 'text-green-400';
-            }
-
-            const buttonClass = method.available === false || method.available === 'maintenance' ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-600 cursor-pointer';
-            const selectedClass = isSelected ? 'border-2 border-yellow-500 bg-gray-700' : 'border border-gray-600 bg-gray-700';
-
-            const buttonHtml = `
-                <div 
-                    class="flex items-center justify-between p-3 rounded-lg ${selectedClass} ${buttonClass}"
-                    data-payment-name="${method.name}"
-                    onclick="selectPaymentMethod('${method.name}', ${method.available === true})"
-                >
-                    <div class="flex items-center">
-                        <i class="${method.icon} ${method.color} text-xl mr-3 w-6 text-center"></i>
-                        <span class="font-medium text-white">${method.name}</span>
-                    </div>
-                    <span class="font-bold ${statusClass}">
-                        ${statusText}
-                    </span>
-                </div>
-            `;
-            listContainer.innerHTML += buttonHtml;
-        }
-    }
-
-    // FUNGSI UNTUK MEMILIH METODE PEMBAYARAN
-    function selectPaymentMethod(methodName, isAvailable) {
-        if (!isAvailable) {
-            return;
-        }
-
-        const method = PAYMENT_METHODS[methodName];
-        selectedPayment = method;
-
-        displayPaymentDetails();
-        updateTotalDisplay();
-        generatePaymentList();
-    }
-    
-    // FUNGSI MENAMPILKAN DETAIL DI MODAL
-    function displayPaymentDetails() {
-        const container = document.getElementById('paymentDetailContainer');
-        const method = selectedPayment;
-        
-        container.classList.add('hidden');
-        container.innerHTML = '';
-        
-        let content = '';
-        
-        if (!method) return;
-        
-        const basePriceRaw = parseInt(document.getElementById('itemSelect').options[document.getElementById('itemSelect').selectedIndex].getAttribute('data-price')) || 0;
-        const totalBayar = method.fee + basePriceRaw;
-
-        // Menampilkan pesan yang mengarahkan ke halaman/link lain
-        content = `
-            <div class="bg-gray-700 bg-opacity-70 p-4 rounded-lg border border-gray-600">
-                <h4 class="text-lg font-bold text-white mb-2 flex items-center">
-                    <i class="fas fa-info-circle mr-2 text-yellow-400"></i> Petunjuk Pembayaran
-                </h4>
-                <p class="text-white text-sm mb-2">
-                    Metode: <span class="font-bold text-yellow-300">${method.name}</span>
-                </p>
-                <p class="text-white text-sm mb-4">
-                    Total yang akan dibayarkan: <span class="font-bold text-lg text-yellow-400">${formatRupiah(totalBayar, 'Rp')}</span>
-                </p>
-                <p class="text-gray-400 text-xs">
-                    Tekan tombol **Lanjut ke Pembayaran** di bawah untuk diarahkan ke halaman pembayaran ${method.name}. Setelah transfer berhasil, tekan tombol **Konfirmasi Order**.
-                </p>
-            </div>
-        `;
-        
-        if (content) {
-            container.innerHTML = content;
-            container.classList.remove('hidden');
-        }
-    }
-
-
-    // FUNGSI UTAMA: Mengupdate Tampilan Total Harga dan Status Tombol
-    function updateTotalDisplay() {
-        const select = document.getElementById('itemSelect');
-        const selectedOption = select.options[select.selectedIndex];
-        const basePriceRaw = parseInt(selectedOption.getAttribute('data-price')) || 0;
-        
-        const adminFee = selectedPayment ? selectedPayment.fee : 0; 
-        const totalFinal = basePriceRaw + adminFee;
-
-        const gameId = document.getElementById('gameIdInputModal').value;
-        const isReady = basePriceRaw > 0 && gameId && selectedPayment;
-        
-        const redirectButton = document.getElementById('redirectButton');
-        const confirmButton = document.getElementById('confirmButton');
-
-        
-        document.getElementById('basePriceDisplay').innerText = formatRupiah(basePriceRaw, 'Rp');
-        document.getElementById('adminFeeDisplay').innerText = formatRupiah(adminFee, 'Rp');
-        document.getElementById('displayPrice').innerText = formatRupiah(totalFinal, 'Rp');
-        document.getElementById('selectedPaymentMethodName').innerText = selectedPayment ? selectedPayment.name : 'Belum dipilih';
-
-        if (isReady) {
-            redirectButton.disabled = false;
-            redirectButton.style.opacity = '1';
-            redirectButton.innerHTML = `<i class="fas fa-external-link-alt text-2xl mr-3"></i> Lanjut ke Pembayaran (${selectedPayment.name})`;
-            
-            // Tombol Konfirmasi tetap DISABLED sampai tombol Redirect ditekan
-            confirmButton.disabled = true; 
-            confirmButton.style.opacity = '0.5';
-            confirmButton.innerHTML = `<i class="fab fa-whatsapp text-2xl mr-3"></i> Konfirmasi Order`; 
-        } else {
-            redirectButton.disabled = true;
-            redirectButton.style.opacity = '0.5';
-            redirectButton.innerHTML = `<i class="fas fa-external-link-alt text-2xl mr-3"></i> Lanjut ke Pembayaran`;
-            
-            confirmButton.disabled = true;
-            confirmButton.style.opacity = '0.5';
-            confirmButton.innerHTML = `<i class="fab fa-whatsapp text-2xl mr-3"></i> Konfirmasi Order`;
-        }
-
-        if (selectedPayment) {
-             displayPaymentDetails();
-        }
-    }
-    
-    // FUNGSI UNTUK MENUTUP MODAL (Agar tombol tutup modal juga berfungsi)
-    function closeModal() {
-        document.getElementById('checkoutModal').classList.add('modal-hidden');
-        document.getElementById('checkoutModal').style.display = 'none'; 
-    }
-
-    // FUNGSI UNTUK MEMBUKA MODAL CHECKOUT (DIPERBAIKI)
-    function openModal() {
-        // 1. Reset input dan pilihan
-        const itemSelect = document.getElementById('itemSelect');
-        const gameIdInput = document.getElementById('gameIdInputModal');
-
-        itemSelect.selectedIndex = 0;
-        gameIdInput.value = ''; 
-        selectedPayment = null; 
-        
-        // 2. HITUNG ULANG BIAYA ADMIN SECARA ACAK
-        for (const key in PAYMENT_METHODS) {
-            const method = PAYMENT_METHODS[key];
-            if (method.available === true) {
-                // Pastikan fee dihitung ulang untuk real-time price
-                method.fee = generateRandomFee(method.baseFee);
-            } else {
-                 method.fee = 0; 
-            }
-        }
-        
-        // 3. Reset teks dan status tombol
-        document.getElementById('redirectButton').innerHTML = `<i class="fas fa-external-link-alt text-2xl mr-3"></i> Lanjut ke Pembayaran`;
-        document.getElementById('confirmButton').innerHTML = `<i class="fab fa-whatsapp text-2xl mr-3"></i> Konfirmasi Order`;
-
-        document.getElementById('paymentDetailContainer').classList.add('hidden');
-        document.getElementById('paymentDetailContainer').innerHTML = '';
-
-        // 4. Update tampilan total, list pembayaran, dan status tombol
-        generatePaymentList(); 
-        updateTotalDisplay(); 
-        
-        // 5. Tampilkan modal
-        const modal = document.getElementById('checkoutModal');
-        modal.classList.remove('modal-hidden');
-        modal.style.display = 'flex'; 
-    }
-
-    // FUNGSI Lanjut ke Pembayaran (Langkah 1)
-    function redirectToPayment() {
-        const select = document.getElementById('itemSelect');
-        const selectedOption = select.options[select.selectedIndex];
-        const selectedItem = selectedOption.value;
-        const basePriceRaw = parseInt(selectedOption.getAttribute('data-price')) || 0;
-        const adminFee = selectedPayment ? selectedPayment.fee : 0; 
-        const totalFinal = basePriceRaw + adminFee;
-        const gameId = document.getElementById('gameIdInputModal').value; 
-        const selectedPaymentName = selectedPayment ? selectedPayment.name : 'TIDAK TERPILIH';
-        
-        if (!gameId || !selectedItem || !selectedPayment) {
-            alert("Mohon lengkapi pilihan item, ID Akun, dan metode pembayaran.");
-            return;
-        }
-
-        const redirectURL = selectedPayment.redirectURL;
-        
-        if (redirectURL) {
-            // 1. Kirim notifikasi Order ke WhatsApp Admin (Sebagai tanda ada order masuk)
-            const whatsappOrderLink = generateOrderNotificationLink(selectedItem, totalFinal, gameId, selectedPaymentName);
-            window.open(whatsappOrderLink, '_blank');
-            
-            // 2. Redirect user ke halaman pembayaran yang dipilih
-            window.open(redirectURL, '_blank'); 
-            
-            // 3. Ubah status tombol setelah redirect berhasil
-            const redirectButton = document.getElementById('redirectButton');
-            const confirmButton = document.getElementById('confirmButton');
-
-            redirectButton.innerHTML = `<i class="fas fa-check text-2xl mr-3"></i> Link Pembayaran Terkirim`;
-            redirectButton.disabled = true;
-            redirectButton.style.opacity = '0.5';
-            
-            // AKTIFKAN TOMBOL KONFIRMASI PEMBAYARAN (Langkah 2)
-            confirmButton.disabled = false;
-            confirmButton.style.opacity = '1';
-        } else {
-            alert("URL redirect untuk metode ini tidak ditemukan.");
-            return;
-        }
-    }
-
-
-    // FUNGSI Konfirmasi Order (Langkah 2)
-    function confirmPayment() {
-        const select = document.getElementById('itemSelect');
-        const selectedOption = select.options[select.selectedIndex];
-        const selectedItem = selectedOption.value;
-        const basePriceRaw = parseInt(selectedOption.getAttribute('data-price')) || 0;
-        const adminFee = selectedPayment ? selectedPayment.fee : 0; 
-        const totalFinal = basePriceRaw + adminFee;
-        const gameId = document.getElementById('gameIdInputModal').value; 
-        const selectedPaymentName = selectedPayment ? selectedPayment.name : 'TIDAK TERPILIH';
-        
-        // *************** PESAN KONFIRMASI WHATSAPP ***************
-        const message = `[KONFIRMASI PEMBAYARAN]
-        
-Halo Admin, saya SUDAH TRANSFER untuk order JOKI FISH IT.
-        
-*DETAIL ORDER SAYA:*
-- Item: ${selectedItem}
-- TOTAL BAYAR: ${formatRupiah(totalFinal, 'Rp')}
-- ID Game: ${gameId}
-- Bayar via: ${selectedPaymentName}
-
-Mohon segera dicek dan diproses ya. *Saya lampirkan bukti transfer di chat ini.*`;
-        // ***************************************************************
-        
-        const whatsappLink = `https://wa.me/${adminPhoneNumber}?text=${encodeURIComponent(message)}`;
-        window.open(whatsappLink, '_blank');
-        
-        // Tutup modal setelah konfirmasi
-        closeModal();
-    }
-
-
-    // Event listener untuk update saat input ID berubah dan saat item dipilih
-    document.getElementById('gameIdInputModal').addEventListener('input', updateTotalDisplay);
-    document.getElementById('itemSelect').addEventListener('change', updateTotalDisplay);
-
-
-    // Panggil saat halaman dimuat untuk inisialisasi
-    document.addEventListener('DOMContentLoaded', () => {
-        updateTotalDisplay();
+    // Open modal & set aria-expanded
+    openBtn.addEventListener("click", () => {
+      modal.style.display = "block";
+      openBtn.setAttribute("aria-expanded", "true");
+      // Focus form first element on open
+      document.getElementById("itemSelect").focus();
     });
 
+    // Close modal & reset aria-expanded
+    closeBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+      openBtn.setAttribute("aria-expanded", "false");
+      openBtn.focus();
+    });
+    // Close modal on clicking outside content
+    window.addEventListener("click", e => {
+      if(e.target === modal){
+        modal.style.display = "none";
+        openBtn.setAttribute("aria-expanded", "false");
+        openBtn.focus();
+      }
+    });
+    // Close modal on ESC key
+    window.addEventListener("keydown", e => {
+      if(e.key === "Escape" && modal.style.display === "block"){
+        modal.style.display = "none";
+        openBtn.setAttribute("aria-expanded", "false");
+        openBtn.focus();
+      }
+    });
+
+    // Form submit to WA
+    orderForm.addEventListener("submit", e => {
+      e.preventDefault();
+      const item = document.getElementById("itemSelect").value;
+      const userID = document.getElementById("userID").value.trim();
+      if(!item || !userID){
+        alert("Mohon isi semua data yang dibutuhkan.");
+        return;
+      }
+      // Pesan WA dengan data
+      const message = encodeURIComponent(`Halo, saya mau order:\n- Item: ${item}\n- ID Akun: ${userID}\n\nMetode pembayaran: Dana, GoPay, OVO, Mandiri dll.`);
+      const waNumber = "6285384046610"; // Ganti nomor WA anda tanpa + atau spasi
+      const url = `https://wa.me/${waNumber}?text=${message}`;
+      window.open(url, "_blank");
+      // Tutup modal setelah redirect
+      modal.style.display = "none";
+    });
   </script>
- </body>
+</body>
 </html>
