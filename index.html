@@ -346,7 +346,7 @@
    <section class="card-bg rounded-xl p-8 shadow-2xl text-center border-t-4 border-gray-700 space-y-6">
     <div class="flex items-center justify-center mb-4">
         <h3 class="text-xl font-semibold text-gray-300 mr-4">Tanya-tanya atau order?</h3>
-        <a href="https://wa.me/6285384046610" target="_blank" class="flex items-center bg-green-500 text-white py-3 px-6 rounded-full text-lg font-bold hover:bg-green-600 transition duration-300">
+        <a href="https://wa.me/6281234567890" target="_blank" class="flex items-center bg-green-500 text-white py-3 px-6 rounded-full text-lg font-bold hover:bg-green-600 transition duration-300">
             <i class="fab fa-whatsapp text-2xl mr-3"></i>
             Langsung PM aja yaa~~
         </a>
@@ -359,8 +359,8 @@
   </footer>
 
   <div id="checkoutModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center modal-hidden z-50 p-4" style="display: none;">
-  <div class="bg-gray-800 rounded-xl p-6 w-full max-w-lg shadow-2xl relative">
-          <button class="absolute top-3 right-3 text-gray-400 hover:text-white" onclick="closeModal()">
+      <div class="bg-gray-800 rounded-xl p-6 w-full max-w-md shadow-2xl relative">
+  <button class="absolute top-3 right-3 text-gray-400 hover:text-white" onclick="closeModal()">
               <i class="fas fa-times text-2xl"></i>
           </button>
           
@@ -504,16 +504,16 @@
         // Reset harga dan pilihan saat modal dibuka
         document.getElementById('itemSelect').selectedIndex = 0;
         updatePriceDisplay(); 
-        // Hapus kelas 'modal-hidden' untuk memunculkan modal, dan hapus style inline display:none
+        // Hapus kelas 'modal-hidden' dan atur display ke 'flex' untuk memunculkan modal
         document.getElementById('checkoutModal').classList.remove('modal-hidden');
-        document.getElementById('checkoutModal').style.display = 'flex'; // Paksa tampil
+        document.getElementById('checkoutModal').style.display = 'flex'; 
     }
 
     // FUNGSI UNTUK MENUTUP MODAL CHECKOUT
     function closeModal() {
-        // Tambahkan kelas 'modal-hidden' dan style inline display:none untuk menyembunyikan modal
+        // Tambahkan kelas 'modal-hidden' dan atur display ke 'none' untuk menyembunyikan modal
         document.getElementById('checkoutModal').classList.add('modal-hidden');
-        document.getElementById('checkoutModal').style.display = 'none'; // Paksa sembunyi
+        document.getElementById('checkoutModal').style.display = 'none'; 
     }
 
     // FUNGSI UNTUK MENGARAHKAN KE WHATSAPP DENGAN DATA
